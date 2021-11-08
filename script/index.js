@@ -35,18 +35,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var API_URL = 'https://icanhazdadjoke.com';
+var API_URL_JOKES = 'https://icanhazdadjoke.com';
+var API_URL_WEATHER = 'https://api.openweathermap.org/data/2.5/weather';
+var API_KEY_WEATHER = 'cf1a85f8f0dbca50e78d998c84180444';
 var reportJokes = [];
 //Getting DOM elements
 var button = document.querySelector('button');
 var acudit = document.querySelector('#acudit');
+var temps = document.querySelector('#weather');
+var tempsIcon = document.querySelector('#weather-icon');
 //Next joke button
 function getJoke() {
     return __awaiter(this, void 0, void 0, function () {
         var response, joke;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch(API_URL, {
+                case 0: return [4 /*yield*/, fetch(API_URL_JOKES, {
                         headers: {
                             'Accept': 'application/json'
                         }
@@ -76,3 +80,26 @@ function reportJoke(score) {
     console.log(reportJokes);
 }
 ;
+//Get weather  
+function getWeather(latitude, longitude) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, weatherObject;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetch(API_URL_WEATHER + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY_WEATHER + "&lang=ca")];
+                case 1:
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    weatherObject = _a.sent();
+                    temps.innerHTML = "El temps avui: " + weatherObject.weather[0].description;
+                    tempsIcon.setAttribute('src', "http://openweathermap.org/img/wn/" + weatherObject.weather[0].icon + "@2x.png");
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+navigator.geolocation.getCurrentPosition(function (position) {
+    getWeather(position.coords.latitude, position.coords.longitude);
+});
+//# sourceMappingURL=index.js.map
