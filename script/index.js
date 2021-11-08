@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var API_URL = 'https://icanhazdadjoke.com';
+var reportJokes = [];
 //Getting DOM elements
 var button = document.querySelector('button');
 var acudit = document.querySelector('#acudit');
@@ -61,3 +63,16 @@ function getJoke() {
     });
 }
 button.addEventListener('click', getJoke);
+//Feedback buttons
+function reportJoke(score) {
+    var joke = acudit.innerHTML;
+    var date = new Date().toISOString();
+    if (joke != '')
+        reportJokes.push({
+            joke: joke,
+            score: score,
+            date: date
+        });
+    console.log(reportJokes);
+}
+;
