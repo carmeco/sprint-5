@@ -2,26 +2,65 @@
 
 :root {
     --white: #eef2f3;
-    --main-blue: #2cb5b4; 
+    --black: #394053;
 }
-
 
 body {
     font-family: 'Chilanka', cursive;
-    background-image: url('/images/footer.jpg');
-    background-size: cover;
+    background-image: url('/images/blob-pink.svg');
+    background-size: 100% 95%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--white);
+    color: var(--black);
 }
 
 article {
-    background-color: var(--white);
     padding: 5rem;
-    border-radius: 2rem;
+}
+
+p {
+    font-size: 1.1rem;
+}
+
+.emojis button {
+    background-color: initial;
+    border: initial;
+}
+.emojis button:hover {
+    transform: scale(2);
+    animation: linear 0.5s scaleBtn;
 }
 
 .btn-custom {
-    background-color: var(--main-blue);
-    color: var(--white);
+    background-color: initial;
+    border: 2px solid var(--black);
+    color: var(--black);
     font-weight: bold;
     padding: 0.5rem 1rem;
     border-radius: 2rem;
+}
+.btn-custom:hover {
+    background-color: var(--black);
+    color: var(--white);
+    animation: linear 0.5s colorBtn;
+}
+
+@media (min-width: 992px) {
+    article {
+        width: 50%;
+    }
+}
+
+@keyframes scaleBtn {
+    from {
+        transform: scale(1);
+    } 
+}
+
+@keyframes colorBtn {
+    from {
+        background-color: initial;
+        color: var(--black);
+    } 
 }

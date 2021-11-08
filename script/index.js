@@ -36,37 +36,86 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var API_URL_JOKES = 'https://icanhazdadjoke.com';
+var API_URL_CHUCK = 'https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random';
+var API_KEY_CHUCK = '865e36f85bmsh404fcd65cffc076p10f251jsn0d0b8704cd57';
 var API_URL_WEATHER = 'https://api.openweathermap.org/data/2.5/weather';
 var API_KEY_WEATHER = 'cf1a85f8f0dbca50e78d998c84180444';
+//Arrays
 var reportJokes = [];
+var images = ['blob-blue.svg', 'blob-yellow.svg', 'blob-pink.svg'];
 //Getting DOM elements
-var button = document.querySelector('button');
+var nextJokeBtn = document.querySelector('#nextJokeBtn');
 var acudit = document.querySelector('#acudit');
 var temps = document.querySelector('#weather');
 var tempsIcon = document.querySelector('#weather-icon');
-//Next joke button
+var body = document.querySelector('body');
+//Get a joke from icanhazdadjoke
 function getJoke() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, joke;
+        var response, joke, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch(API_URL_JOKES, {
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    })];
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch(API_URL_JOKES, {
+                            headers: {
+                                'Accept': 'application/json'
+                            }
+                        })];
                 case 1:
                     response = _a.sent();
                     return [4 /*yield*/, response.json()];
                 case 2:
                     joke = (_a.sent()).joke;
                     acudit.innerHTML = joke;
-                    return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _a.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
-button.addEventListener('click', getJoke);
+//Next joke from Chuck
+function getJokeFromChuck() {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, value, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch(API_URL_CHUCK, {
+                            headers: {
+                                'accept': 'application/json',
+                                'x-rapidapi-key': API_KEY_CHUCK,
+                                'x-rapidapi-host': 'matchilling-chuck-norris-jokes-v1.p.rapidapi.com',
+                            }
+                        })];
+                case 1:
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    value = (_a.sent()).value;
+                    acudit.innerHTML = value;
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_2 = _a.sent();
+                    console.log(error_2);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+//Next joke button
+var clicks = 0;
+nextJokeBtn.addEventListener('click', function () {
+    clicks++;
+    clicks % 2 == 0 ? getJoke() : getJokeFromChuck();
+    body.style.backgroundImage = "url(/images/" + images[Math.floor(Math.random() * images.length)] + ")";
+});
 //Feedback buttons
 function reportJoke(score) {
     var joke = acudit.innerHTML;
@@ -83,23 +132,36 @@ function reportJoke(score) {
 //Get weather  
 function getWeather(latitude, longitude) {
     return __awaiter(this, void 0, void 0, function () {
-        var response, weatherObject;
+        var response, weatherObject, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch(API_URL_WEATHER + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY_WEATHER + "&lang=ca")];
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch(API_URL_WEATHER + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY_WEATHER + "&lang=ca")];
                 case 1:
                     response = _a.sent();
                     return [4 /*yield*/, response.json()];
                 case 2:
                     weatherObject = _a.sent();
                     temps.innerHTML = "El temps avui: " + weatherObject.weather[0].description;
-                    tempsIcon.setAttribute('src', "http://openweathermap.org/img/wn/" + weatherObject.weather[0].icon + "@2x.png");
-                    return [2 /*return*/];
+                    tempsIcon.setAttribute('src', "images/weather/" + weatherObject.weather[0].icon + ".png");
+                    console.log(weatherObject.weather[0].icon);
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_3 = _a.sent();
+                    console.log(error_3);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
 navigator.geolocation.getCurrentPosition(function (position) {
-    getWeather(position.coords.latitude, position.coords.longitude);
+    try {
+        getWeather(position.coords.latitude, position.coords.longitude);
+    }
+    catch (error) {
+        console.log(error);
+    }
 });
 //# sourceMappingURL=index.js.map

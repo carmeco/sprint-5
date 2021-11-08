@@ -5,29 +5,31 @@ const API_KEY_CHUCK:string = '865e36f85bmsh404fcd65cffc076p10f251jsn0d0b8704cd57
 const API_URL_WEATHER:string = 'https://api.openweathermap.org/data/2.5/weather';
 const API_KEY_WEATHER:string = 'cf1a85f8f0dbca50e78d998c84180444';
 
+//Arrays
 const reportJokes:{
     joke:string,
     score:number,
     date:string
 }[] = [];
+const images:string[] = ['blob-blue.svg', 'blob-yellow.svg', 'blob-pink.svg'];
 
 //Getting DOM elements
-const button = document.querySelector('button');
+const nextJokeBtn = document.querySelector('#nextJokeBtn');
 const acudit = document.querySelector('#acudit');
 const temps = document.querySelector('#weather');
 const tempsIcon = document.querySelector('#weather-icon');
-
+const body = document.querySelector('body');
 
 //Get a joke from icanhazdadjoke
 async function getJoke() {
     try {
-        const response = await fetch(API_URL_JOKES, {
+        let response = await fetch(API_URL_JOKES, {
             headers: {
                 'Accept': 'application/json'
             }
         });
-        const { joke } = await response.json();
-        return joke;
+        let { joke } = await response.json();
+        acudit!.innerHTML = joke;
     } catch (error) {
         console.log(error);
     }
@@ -44,7 +46,7 @@ async function getJokeFromChuck() {
             }
         });
         const { value } = await response.json();
-        return value;
+        acudit!.innerHTML = value;
     } catch (error) {
         console.log(error);
     }
@@ -52,9 +54,10 @@ async function getJokeFromChuck() {
 
 //Next joke button
 let clicks:number = 0;
-button!.addEventListener('click', () => {
+nextJokeBtn!.addEventListener('click', () => {
     clicks++;
-    acudit!.innerHTML = `${clicks%2 == 0 ? getJoke() : getJokeFromChuck()}`;
+    clicks%2 == 0 ? getJoke() : getJokeFromChuck();
+    body!.style.backgroundImage = `url(/images/${images[Math.floor(Math.random() * images.length)]})`;
 });
 
 //Feedback buttons
@@ -76,7 +79,8 @@ async function getWeather(latitude:number, longitude:number) {
         const response = await fetch(`${API_URL_WEATHER}?lat=${latitude}&lon=${longitude}&appid=${API_KEY_WEATHER}&lang=ca`);
         const weatherObject = await response.json();
         temps!.innerHTML = `El temps avui: ${weatherObject.weather[0].description}`;
-        tempsIcon!.setAttribute('src', `http://openweathermap.org/img/wn/${weatherObject.weather[0].icon}@2x.png`);
+        tempsIcon!.setAttribute('src', `images/weather/${weatherObject.weather[0].icon}.png`);
+        console.log(weatherObject.weather[0].icon)
     } catch (error) {
         console.log(error);
     }
