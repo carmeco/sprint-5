@@ -1,4 +1,5 @@
 
+//APIs
 const API_URL_JOKES:string = 'https://icanhazdadjoke.com';
 const API_URL_CHUCK:string = 'https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random';
 const API_KEY_CHUCK:string = '865e36f85bmsh404fcd65cffc076p10f251jsn0d0b8704cd57';
@@ -35,7 +36,7 @@ async function getJoke() {
     }
 }
 
-//Next joke from Chuck
+//Get a joke from Chuck
 async function getJokeFromChuck() {
     try {
         const response = await fetch(API_URL_CHUCK, {

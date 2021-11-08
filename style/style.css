@@ -5,6 +5,9 @@
     --black: #394053;
 }
 
+
+/* Elements */
+
 body {
     font-family: 'Chilanka', cursive;
     background-image: url('/images/blob-pink.svg');
@@ -22,6 +25,9 @@ article {
 p {
     font-size: 1.1rem;
 }
+
+
+/* Buttons */
 
 .emojis button {
     background-color: initial;
@@ -46,11 +52,17 @@ p {
     animation: linear 0.5s colorBtn;
 }
 
+
+/* Media queries */
+
 @media (min-width: 992px) {
     article {
         width: 50%;
     }
 }
+
+
+/* Keyframes */
 
 @keyframes scaleBtn {
     from {
