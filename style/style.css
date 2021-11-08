@@ -22,10 +22,6 @@ article {
     padding: 5rem;
 }
 
-p {
-    font-size: 1.1rem;
-}
-
 
 /* Buttons */
 
@@ -58,6 +54,12 @@ p {
 @media (min-width: 992px) {
     article {
         width: 50%;
+    }
+    h1 {
+        font-size: 3.5rem;
+    }
+    p {
+        font-size: 1.2rem;
     }
 }
 
