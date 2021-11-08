@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Chilanka&display=swap');
+
+:root {
+    --white: #eef2f3;
+    --main-blue: #2cb5b4; 
+}
+
+
+body {
+    font-family: 'Chilanka', cursive;
+    background-image: url('/images/footer.jpg');
+    background-size: cover;
+}
+
+article {
+    background-color: var(--white);
+    padding: 5rem;
+    border-radius: 2rem;
+}
+
+.btn-custom {
+    background-color: var(--main-blue);
+    color: var(--white);
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+}

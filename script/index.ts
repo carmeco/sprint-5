@@ -17,5 +17,4 @@ async function getJoke() {
     let { joke } = await response.json();
     acudit.innerHTML = joke;
 }
-
 button.addEventListener('click', getJoke);
