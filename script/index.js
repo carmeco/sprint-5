@@ -36,20 +36,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 //APIs
-var API_URL_JOKES = 'https://icanhazdadjoke.com';
-var API_URL_CHUCK = 'https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random';
-var API_KEY_CHUCK = '865e36f85bmsh404fcd65cffc076p10f251jsn0d0b8704cd57';
-var API_URL_WEATHER = 'https://api.openweathermap.org/data/2.5/weather';
-var API_KEY_WEATHER = 'cf1a85f8f0dbca50e78d998c84180444';
+var API_URL_JOKES = "https://icanhazdadjoke.com";
+var API_URL_CHUCK = "https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random";
+var API_KEY_CHUCK = "865e36f85bmsh404fcd65cffc076p10f251jsn0d0b8704cd57";
+var API_URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather";
+var API_KEY_WEATHER = "cf1a85f8f0dbca50e78d998c84180444";
+var API_SCORES = "http://localhost:3000/scores";
 //Arrays
-var reportJokes = [];
-var images = ['blob-blue.svg', 'blob-yellow.svg', 'blob-pink.svg'];
+var images = ["blob-blue.svg", "blob-yellow.svg", "blob-pink.svg"];
 //Getting DOM elements
-var nextJokeBtn = document.querySelector('#nextJokeBtn');
-var acudit = document.querySelector('#acudit');
-var temps = document.querySelector('#weather');
-var tempsIcon = document.querySelector('#weather-icon');
-var body = document.querySelector('body');
+var nextJokeBtn = document.querySelector("#nextJokeBtn");
+var acudit = document.querySelector("#acudit");
+var temps = document.querySelector("#weather");
+var tempsIcon = document.querySelector("#weather-icon");
+var body = document.querySelector("body");
+var feedback = document.querySelector("#feedback");
 //Get a joke from icanhazdadjoke
 function getJoke() {
     return __awaiter(this, void 0, void 0, function () {
@@ -60,8 +61,8 @@ function getJoke() {
                     _a.trys.push([0, 3, , 4]);
                     return [4 /*yield*/, fetch(API_URL_JOKES, {
                             headers: {
-                                'Accept': 'application/json'
-                            }
+                                accept: "application/json",
+                            },
                         })];
                 case 1:
                     response = _a.sent();
@@ -88,10 +89,10 @@ function getJokeFromChuck() {
                     _a.trys.push([0, 3, , 4]);
                     return [4 /*yield*/, fetch(API_URL_CHUCK, {
                             headers: {
-                                'accept': 'application/json',
-                                'x-rapidapi-key': API_KEY_CHUCK,
-                                'x-rapidapi-host': 'matchilling-chuck-norris-jokes-v1.p.rapidapi.com',
-                            }
+                                accept: "application/json",
+                                "x-rapidapi-key": API_KEY_CHUCK,
+                                "x-rapidapi-host": "matchilling-chuck-norris-jokes-v1.p.rapidapi.com",
+                            },
                         })];
                 case 1:
                     response = _a.sent();
@@ -110,12 +111,13 @@ function getJokeFromChuck() {
 }
 //Next joke button
 var clicks = 0;
-nextJokeBtn.addEventListener('click', function () { return __awaiter(void 0, void 0, void 0, function () {
+nextJokeBtn.addEventListener("click", function () { return __awaiter(void 0, void 0, void 0, function () {
     var _a, _b, _c;
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0:
                 clicks++;
+                feedback.innerHTML = "";
                 _a = acudit;
                 _b = "";
                 if (!(clicks % 2 == 0)) return [3 /*break*/, 2];
@@ -129,25 +131,43 @@ nextJokeBtn.addEventListener('click', function () { return __awaiter(void 0, voi
                 _d.label = 4;
             case 4:
                 _a.innerHTML = _b + (_c);
-                body.style.backgroundImage = "url(/images/" + images[Math.floor(Math.random() * images.length)] + ")";
+                body.style.backgroundImage = "url(images/" + images[Math.floor(Math.random() * images.length)] + ")";
                 return [2 /*return*/];
         }
     });
 }); });
 //Feedback buttons
 function reportJoke(score) {
-    var joke = acudit.innerHTML;
-    var date = new Date().toISOString();
-    if (joke != '')
-        reportJokes.push({
-            joke: joke,
-            score: score,
-            date: date
+    return __awaiter(this, void 0, void 0, function () {
+        var joke, jokeReport;
+        return __generator(this, function (_a) {
+            joke = acudit.innerHTML;
+            if (joke != "") {
+                jokeReport = {
+                    joke: joke,
+                    score: score,
+                    date: new Date().toISOString(),
+                };
+                try {
+                    fetch(API_SCORES, {
+                        method: "POST",
+                        headers: {
+                            "content-type": "application/json",
+                        },
+                        body: JSON.stringify(jokeReport),
+                    });
+                    feedback.innerHTML = "Gracias por tu valoración!";
+                }
+                catch (error) {
+                    feedback.innerHTML =
+                        "No se ha podido enviar la valoración. Inténtalo más tarde...";
+                }
+            }
+            return [2 /*return*/];
         });
-    console.log(reportJokes);
+    });
 }
-;
-//Get weather  
+//Get weather
 function getWeather(latitude, longitude) {
     return __awaiter(this, void 0, void 0, function () {
         var response, error_3;
@@ -179,7 +199,7 @@ navigator.geolocation.getCurrentPosition(function (position) { return __awaiter(
             case 1:
                 weatherObject = _a.sent();
                 temps.innerHTML = "El temps avui: " + weatherObject.weather[0].description;
-                tempsIcon.setAttribute('src', "images/weather/" + weatherObject.weather[0].icon + ".png");
+                tempsIcon.setAttribute("src", "images/weather/" + weatherObject.weather[0].icon + ".png");
                 return [3 /*break*/, 3];
             case 2:
                 error_4 = _a.sent();

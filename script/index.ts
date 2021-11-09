@@ -7,13 +7,9 @@ const API_KEY_CHUCK: string =
 const API_URL_WEATHER: string =
     "https://api.openweathermap.org/data/2.5/weather";
 const API_KEY_WEATHER: string = "cf1a85f8f0dbca50e78d998c84180444";
+const API_SCORES: string = "http://localhost:3000/scores";
 
 //Arrays
-const reportJokes: {
-    joke: string;
-    score: number;
-    date: string;
-}[] = [];
 const images: string[] = ["blob-blue.svg", "blob-yellow.svg", "blob-pink.svg"];
 
 //Getting DOM elements
@@ -22,13 +18,14 @@ const acudit = document.querySelector("#acudit");
 const temps = document.querySelector("#weather");
 const tempsIcon = document.querySelector("#weather-icon");
 const body = document.querySelector("body");
+const feedback = document.querySelector("#feedback");
 
 //Get a joke from icanhazdadjoke
 async function getJoke() {
     try {
         let response = await fetch(API_URL_JOKES, {
             headers: {
-                Accept: "application/json",
+                accept: "application/json",
             },
         });
         let { joke } = await response.json();
@@ -60,25 +57,42 @@ async function getJokeFromChuck() {
 let clicks: number = 0;
 nextJokeBtn!.addEventListener("click", async () => {
     clicks++;
+    feedback!.innerHTML = "";
     acudit!.innerHTML = `${
         clicks % 2 == 0 ? await getJoke() : await getJokeFromChuck()
     }`;
-    body!.style.backgroundImage = `url(/images/${
+    body!.style.backgroundImage = `url(images/${
         images[Math.floor(Math.random() * images.length)]
     })`;
 });
 
 //Feedback buttons
-function reportJoke(score: number) {
+async function reportJoke(score: number) {
     const joke = acudit!.innerHTML;
-    const date: string = new Date().toISOString();
-    if (joke != "")
-        reportJokes.push({
+    if (joke != "") {
+        const jokeReport: {
+            joke: string;
+            score: number;
+            date: string;
+        } = {
             joke: joke,
             score: score,
-            date: date,
-        });
-    console.log(reportJokes);
+            date: new Date().toISOString(),
+        };
+        try {
+            fetch(API_SCORES, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(jokeReport),
+            });
+            feedback!.innerHTML = "Gracias por tu valoración!";
+        } catch (error) {
+            feedback!.innerHTML =
+                "No se ha podido enviar la valoración. Inténtalo más tarde...";
+        }
+    }
 }
 
 //Get weather

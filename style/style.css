@@ -10,7 +10,7 @@
 
 body {
     font-family: 'Chilanka', cursive;
-    background-image: url('/images/blob-pink.svg');
+    background-image: url('../images/blob-pink.svg');
     background-size: 100% 95%;
     background-position: center;
     background-repeat: no-repeat;
