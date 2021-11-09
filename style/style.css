@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Chilanka&display=swap');
+
+:root {
+    --white: #eef2f3;
+    --black: #394053;
+}
+
+
+/* Elements */
+
+body {
+    font-family: 'Chilanka', cursive;
+    background-image: url('../images/blob-pink.svg');
+    background-size: 100% 95%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--white);
+    color: var(--black);
+}
+
+article {
+    padding: 5rem;
+}
+
+
+/* Buttons */
+
+.emojis button {
+    background-color: initial;
+    border: initial;
+}
+.emojis button:hover {
+    transform: scale(2);
+    animation: linear 0.5s scaleBtn;
+}
+
+.btn-custom {
+    background-color: initial;
+    border: 2px solid var(--black);
+    color: var(--black);
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+}
+.btn-custom:hover {
+    background-color: var(--black);
+    color: var(--white);
+    animation: linear 0.5s colorBtn;
+}
+
+
+/* Media queries */
+
+@media (min-width: 992px) {
+    article {
+        width: 50%;
+    }
+    h1 {
+        font-size: 3.5rem;
+    }
+    p {
+        font-size: 1.2rem;
+    }
+}
+
+
+/* Keyframes */
+
+@keyframes scaleBtn {
+    from {
+        transform: scale(1);
+    } 
+}
+
+@keyframes colorBtn {
+    from {
+        background-color: initial;
+        color: var(--black);
+    } 
+}

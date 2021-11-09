@@ -1,0 +1,24 @@
+{
+  "name": "sprint-5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "json-server --watch ./data/scores.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carmeco/sprint5.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carmeco/sprint5/issues"
+  },
+  "homepage": "https://github.com/carmeco/sprint5#readme",
+  "dependencies": {
+    "json-server": "^0.17.0"
+  }
+}
