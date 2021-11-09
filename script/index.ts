@@ -1,4 +1,3 @@
-
 //APIs
 const API_URL_JOKES:string = 'https://icanhazdadjoke.com';
 const API_URL_CHUCK:string = 'https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random';
@@ -67,10 +66,10 @@ function reportJoke (score:number) {
     const date:string = new Date().toISOString();
     if (joke != '')
         reportJokes.push({
-        joke: joke,
-        score: score,
-        date: date
-    });
+            joke: joke,
+            score: score,
+            date: date
+        });
     console.log(reportJokes);
 };
 
