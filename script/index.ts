@@ -30,7 +30,7 @@ async function getJoke() {
             }
         });
         let { joke } = await response.json();
-        acudit!.innerHTML = joke;
+        return joke;
     } catch (error) {
         console.log(error);
     }
@@ -47,7 +47,7 @@ async function getJokeFromChuck() {
             }
         });
         const { value } = await response.json();
-        acudit!.innerHTML = value;
+        return value;
     } catch (error) {
         console.log(error);
     }
@@ -55,9 +55,9 @@ async function getJokeFromChuck() {
 
 //Next joke button
 let clicks:number = 0;
-nextJokeBtn!.addEventListener('click', () => {
+nextJokeBtn!.addEventListener('click', async () => {
     clicks++;
-    clicks%2 == 0 ? getJoke() : getJokeFromChuck();
+    acudit!.innerHTML = `${clicks%2 == 0 ? await getJoke() : await getJokeFromChuck()}`;
     body!.style.backgroundImage = `url(/images/${images[Math.floor(Math.random() * images.length)]})`;
 });
 
@@ -78,17 +78,16 @@ function reportJoke (score:number) {
 async function getWeather(latitude:number, longitude:number) {
     try {
         const response = await fetch(`${API_URL_WEATHER}?lat=${latitude}&lon=${longitude}&appid=${API_KEY_WEATHER}&lang=ca`);
-        const weatherObject = await response.json();
-        temps!.innerHTML = `El temps avui: ${weatherObject.weather[0].description}`;
-        tempsIcon!.setAttribute('src', `images/weather/${weatherObject.weather[0].icon}.png`);
-        console.log(weatherObject.weather[0].icon)
+        return await response.json();
     } catch (error) {
         console.log(error);
     }
 }
-navigator.geolocation.getCurrentPosition((position) => {
+navigator.geolocation.getCurrentPosition(async (position) => {
     try {
-        getWeather(position.coords.latitude, position.coords.longitude);
+        const weatherObject = await getWeather(position.coords.latitude, position.coords.longitude);
+        temps!.innerHTML = `El temps avui: ${weatherObject.weather[0].description}`;
+        tempsIcon!.setAttribute('src', `images/weather/${weatherObject.weather[0].icon}.png`);
     } catch (error) {
         console.log(error);
     }

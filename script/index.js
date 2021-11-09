@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+//APIs
 var API_URL_JOKES = 'https://icanhazdadjoke.com';
 var API_URL_CHUCK = 'https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random';
 var API_KEY_CHUCK = '865e36f85bmsh404fcd65cffc076p10f251jsn0d0b8704cd57';
@@ -67,8 +68,7 @@ function getJoke() {
                     return [4 /*yield*/, response.json()];
                 case 2:
                     joke = (_a.sent()).joke;
-                    acudit.innerHTML = joke;
-                    return [3 /*break*/, 4];
+                    return [2 /*return*/, joke];
                 case 3:
                     error_1 = _a.sent();
                     console.log(error_1);
@@ -78,7 +78,7 @@ function getJoke() {
         });
     });
 }
-//Next joke from Chuck
+//Get a joke from Chuck
 function getJokeFromChuck() {
     return __awaiter(this, void 0, void 0, function () {
         var response, value, error_2;
@@ -98,8 +98,7 @@ function getJokeFromChuck() {
                     return [4 /*yield*/, response.json()];
                 case 2:
                     value = (_a.sent()).value;
-                    acudit.innerHTML = value;
-                    return [3 /*break*/, 4];
+                    return [2 /*return*/, value];
                 case 3:
                     error_2 = _a.sent();
                     console.log(error_2);
@@ -111,11 +110,30 @@ function getJokeFromChuck() {
 }
 //Next joke button
 var clicks = 0;
-nextJokeBtn.addEventListener('click', function () {
-    clicks++;
-    clicks % 2 == 0 ? getJoke() : getJokeFromChuck();
-    body.style.backgroundImage = "url(/images/" + images[Math.floor(Math.random() * images.length)] + ")";
-});
+nextJokeBtn.addEventListener('click', function () { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, _b, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
+            case 0:
+                clicks++;
+                _a = acudit;
+                _b = "";
+                if (!(clicks % 2 == 0)) return [3 /*break*/, 2];
+                return [4 /*yield*/, getJoke()];
+            case 1:
+                _c = _d.sent();
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, getJokeFromChuck()];
+            case 3:
+                _c = _d.sent();
+                _d.label = 4;
+            case 4:
+                _a.innerHTML = _b + (_c);
+                body.style.backgroundImage = "url(/images/" + images[Math.floor(Math.random() * images.length)] + ")";
+                return [2 /*return*/];
+        }
+    });
+}); });
 //Feedback buttons
 function reportJoke(score) {
     var joke = acudit.innerHTML;
@@ -132,7 +150,7 @@ function reportJoke(score) {
 //Get weather  
 function getWeather(latitude, longitude) {
     return __awaiter(this, void 0, void 0, function () {
-        var response, weatherObject, error_3;
+        var response, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -141,12 +159,7 @@ function getWeather(latitude, longitude) {
                 case 1:
                     response = _a.sent();
                     return [4 /*yield*/, response.json()];
-                case 2:
-                    weatherObject = _a.sent();
-                    temps.innerHTML = "El temps avui: " + weatherObject.weather[0].description;
-                    tempsIcon.setAttribute('src', "images/weather/" + weatherObject.weather[0].icon + ".png");
-                    console.log(weatherObject.weather[0].icon);
-                    return [3 /*break*/, 4];
+                case 2: return [2 /*return*/, _a.sent()];
                 case 3:
                     error_3 = _a.sent();
                     console.log(error_3);
@@ -156,12 +169,24 @@ function getWeather(latitude, longitude) {
         });
     });
 }
-navigator.geolocation.getCurrentPosition(function (position) {
-    try {
-        getWeather(position.coords.latitude, position.coords.longitude);
-    }
-    catch (error) {
-        console.log(error);
-    }
-});
+navigator.geolocation.getCurrentPosition(function (position) { return __awaiter(void 0, void 0, void 0, function () {
+    var weatherObject, error_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, getWeather(position.coords.latitude, position.coords.longitude)];
+            case 1:
+                weatherObject = _a.sent();
+                temps.innerHTML = "El temps avui: " + weatherObject.weather[0].description;
+                tempsIcon.setAttribute('src', "images/weather/" + weatherObject.weather[0].icon + ".png");
+                return [3 /*break*/, 3];
+            case 2:
+                error_4 = _a.sent();
+                console.log(error_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 //# sourceMappingURL=index.js.map
